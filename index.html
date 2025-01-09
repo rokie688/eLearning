@@ -11,15 +11,25 @@
     <button id="stop">Stop</button>
     <button id="reset">Reset</button>
     <button id="lap">Lap</button>
+    <div id="lap1">
+    </div>
+
+
 <!--Stage 1: In this stage you'll work only on HTML content and CSS styles are applied on later stages-->
     <script>
         const button = document.getElementById('start');
         const stop = document.getElementById('stop');
         const timer = document.getElementById("timer");
         const time = document.createTextNode("00:00:00");
-        let start;
+        const reset = document.getElementById("reset");
+        const lap = document.getElementById("lap");
+        const laps = document.getElementById("lap1");
+        let start, elapsedTime, lapTime, newItem;
         elapsedTime = 0;
         timer.appendChild(time);
+        let oList = document.createElement('ol');
+        oList.id = "laps";
+        laps.appendChild(oList);
         function Starting() {
             let ms = Math.floor(((elapsedTime++) % 1000) / 10);
             let seconds = Math.floor(((elapsedTime++) / 1000) % 60);
@@ -32,12 +42,40 @@
 
         button.addEventListener('click', function () {
             clearInterval(start);
-            start = setInterval(Starting, 1)
+            start = setInterval(Starting,)
         });
 
         stop.addEventListener('click', function () {
             clearInterval(start);
         });
+
+        reset.addEventListener('click', function () {
+            oList.remove()
+            clearInterval(start);
+            timer.textContent = '00:00:00';
+            elapsedTime = 0;
+            oList = document.createElement('ol');
+            oList.id = "laps";
+            laps.appendChild(oList);
+        });
+
+        lap.addEventListener('click', function () {
+            let ms = Math.floor(((elapsedTime) % 1000) / 10);
+            let seconds = Math.floor(((elapsedTime) / 1000) % 60);
+            let minutes = Math.floor((elapsedTime) / 60000);
+            minutes = minutes.toString().padStart(2, '0');
+            seconds = seconds.toString().padStart(2, '0');
+            ms = ms.toString().padStart(2, '0');
+
+            newItem = document.createElement('li');
+            lapTime = document.createTextNode(minutes + ":" + seconds +":"+ ms);
+            newItem.appendChild(lapTime);
+            oList.appendChild(newItem);
+        });
+
+
+
+
     </script>
 </body>
 </html>
